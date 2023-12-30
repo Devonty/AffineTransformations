@@ -4,6 +4,8 @@ package cgvsu.model;
 import javax.vecmath.Vector2f;
 import javax.vecmath.Vector3f;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Vector;
 
 public class Model {
 
@@ -17,5 +19,11 @@ public class Model {
         this.textureVertices = textureVertices;
         this.normals = normals;
         this.polygons = polygons;
+    }
+
+    public ArrayList<Vector3f> copyVertexes() {
+        ArrayList<Vector3f> newVectors = new ArrayList<>(vertices.size());
+        for(Vector3f vertex : vertices) newVectors.add(new Vector3f(vertex));
+        return newVectors;
     }
 }

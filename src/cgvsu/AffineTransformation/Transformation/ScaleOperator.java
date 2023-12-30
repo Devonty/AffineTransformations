@@ -20,6 +20,6 @@ public class ScaleOperator implements MatrixOperator {
 
     @Override
     public Matrix4f getTransformMatrix() {
-        return transformMatrix;
+        return new Matrix4f(transformMatrix);
     }
 }

@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Vector;
 
 public class Transformer {
-    private Matrix4f totalTransformMatrix;
+    private final Matrix4f totalTransformMatrix;
 
     public Transformer() {
         this.totalTransformMatrix = new Matrix4f();
