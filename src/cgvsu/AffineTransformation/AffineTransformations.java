@@ -1,13 +1,71 @@
 package cgvsu.AffineTransformation;
-import java.io.*;
 import java.util.ArrayList;
-import java.util.List;
 import javax.vecmath.*;
-import cgvsu.model.Model;
 
 public class AffineTransformations {
+    public static ArrayList<Vector3f> rotateX(ArrayList<Vector3f> vertices, float radians) {
+        Matrix4f rotationXMatrix = new Matrix4f();
+        rotationXMatrix.setIdentity();
 
-    public static ArrayList<Vector3f> rotate(ArrayList<Vector3f> vertices, Vector3f angles) {
+        rotationXMatrix.m11 = (float) Math.cos(radians);
+        rotationXMatrix.m12 = (float) Math.sin(radians);
+        rotationXMatrix.m21 = (float) Math.sin(radians)*(-1);
+        rotationXMatrix.m22 = (float) Math.cos(radians);
+
+        ArrayList<Vector3f> newVectors = new ArrayList<>(vertices.size());
+
+        for (Vector3f vertex: vertices){
+            Vector3f vector3f = new Vector3f(vertex);
+            rotationXMatrix.transform(vector3f);
+            newVectors.add(vector3f);
+        }
+
+        return newVectors;
+
+    }
+
+    public static ArrayList<Vector3f> rotateY(ArrayList<Vector3f> vertices, float radians) {
+        Matrix4f rotationYMatrix = new Matrix4f();
+        rotationYMatrix.setIdentity();
+
+        rotationYMatrix.m00 = (float) Math.cos(radians);
+        rotationYMatrix.m02 = (float) Math.sin(radians);
+        rotationYMatrix.m20 = (float) Math.sin(radians)*(-1);
+        rotationYMatrix.m22 = (float) Math.cos(radians);
+
+        ArrayList<Vector3f> newVectors = new ArrayList<>(vertices.size());
+
+        for (Vector3f vertex: vertices){
+            Vector3f vector3f = new Vector3f(vertex);
+            rotationYMatrix.transform(vector3f);
+            newVectors.add(vector3f);
+        }
+
+        return newVectors;
+
+    }
+
+    public static ArrayList<Vector3f> rotateZ(ArrayList<Vector3f> vertices, float radians) {
+        Matrix4f rotationZMatrix = new Matrix4f();
+        rotationZMatrix.setIdentity();
+
+        rotationZMatrix.m00 = (float) Math.cos(radians);
+        rotationZMatrix.m01 = (float) Math.sin(radians);
+        rotationZMatrix.m10 = (float) Math.sin(radians)*(-1);
+        rotationZMatrix.m11 = (float) Math.cos(radians);
+
+        ArrayList<Vector3f> newVectors = new ArrayList<>(vertices.size());
+
+        for (Vector3f vertex: vertices){
+            Vector3f vector3f = new Vector3f(vertex);
+            rotationZMatrix.transform(vector3f);
+            newVectors.add(vector3f);
+        }
+
+        return newVectors;
+
+    }
+    public static ArrayList<Vector3f> rotateXYZ(ArrayList<Vector3f> vertices, Vector3f angles) {
         // Применить поворот ко всем вершинам
 
         Matrix4f rotationXMatrix = new Matrix4f();
@@ -92,12 +150,6 @@ public class AffineTransformations {
     }
 
     public static ArrayList<Vector3f> scaleRotateTranslate(ArrayList<Vector3f> vertices, Vector3f scales, Vector3f rotation, Vector3f transportation){
-        return AffineTransformations.translate(
-                AffineTransformations.rotate(
-                        AffineTransformations.scale(vertices, scales),
-                        rotation
-                ),
-                transportation
-        );
+        return translate(rotateXYZ(scale(vertices, scales), rotation), transportation);
     }
 }

@@ -1,4 +1,4 @@
-package cgvsu.AffineTransformation;
+package Tests;
 
 import cgvsu.model.Model;
 import cgvsu.objreader.IncorrectFileException;
@@ -29,7 +29,7 @@ class AffineTransformationsTest {
         expectedVector.y *= -1;
 
         // получаем список новых вершин
-        List<Vector3f> newVertexes = rotate(model.vertices, new Vector3f((float) Math.PI, 0f, 0f));
+        List<Vector3f> newVertexes = rotateX(model.vertices, (float) Math.PI);
         // проверяем ожидаемую вершину с погрешностью
         assertTrue(expectedVector.epsilonEquals(newVertexes.get(0), 1E-4f));
 
@@ -44,7 +44,7 @@ class AffineTransformationsTest {
         expectedVector.x *= -1;
         expectedVector.z *= -1;
 
-        List<Vector3f> newVertexes = rotate(model.vertices,new Vector3f(0f, (float) Math.PI, 0f));
+        List<Vector3f> newVertexes = rotateY(model.vertices, (float) Math.PI);
         // проверяем ожидаемую вершину с погрешностью
         assertTrue(expectedVector.epsilonEquals(newVertexes.get(0), 1E-4f));
 
@@ -58,7 +58,22 @@ class AffineTransformationsTest {
         expectedVector.x *= -1;
         expectedVector.y *= -1;
 
-        List<Vector3f> newVertexes = rotate(model.vertices, new Vector3f(0f, 0f, (float) Math.PI));
+        List<Vector3f> newVertexes = rotateZ(model.vertices, (float) Math.PI);
+        // проверяем ожидаемую вершину с погрешностью
+        assertTrue(expectedVector.epsilonEquals(newVertexes.get(0), 1E-4f));
+
+    }
+
+    @org.junit.jupiter.api.Test
+    void testRotateObjectXYZ() throws PathReadException, IncorrectFileException {
+        // Считываем модель
+        Model model = getModel(filepath);
+
+        Vector3f expectedVector = new Vector3f(model.vertices.get(0));
+        expectedVector.x *= -1;
+        expectedVector.y *= -1;
+
+        List<Vector3f> newVertexes = rotateXYZ(model.vertices, new Vector3f(0f, 0f, (float) Math.PI));
         // проверяем ожидаемую вершину с погрешностью
         assertTrue(expectedVector.epsilonEquals(newVertexes.get(0), 1E-4f));
 
